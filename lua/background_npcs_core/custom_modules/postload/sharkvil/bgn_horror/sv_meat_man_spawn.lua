@@ -2,8 +2,11 @@ local startPosDarkRoom = Vector( -3184, -2616, 168 )
 local endPosDarkRoom = Vector( -5314, -995, -169 )
 
 local function InDarkRoom(vec)
-	if not string.find( game.GetMap(), 'gm_construct' ) then return false end
 	return vec:WithinAABox( startPosDarkRoom, endPosDarkRoom )
+end
+
+local function IsGmConstruct()
+	return tobool( string.find( game.GetMap(), 'gm_construct' ) )
 end
 
 hook.Add('BGN_PostSpawnActor', 'BGN_SharkVil_Horror_MeatManSpawn', function(npc, npc_type)
@@ -24,16 +27,22 @@ hook.Add('BGN_PostSpawnActor', 'BGN_SharkVil_Horror_MeatManSpawn', function(npc,
 		if not actor then return end
 
 		local npc_pos = npc:GetPos()
+		local is_gm_construct = IsGmConstruct()
 
-		if not InDarkRoom(npc_pos) then
+		if is_gm_construct and not InDarkRoom(npc_pos) then
 			npc:slibFadeRemove()
 			return
 		end
 
 		local enemies_exists = false
+		local minDist = 1440000
+
+		if not is_gm_construct then
+			minDist = 490000
+		end
 
 		for _, ply in ipairs(player.GetAll()) do
-			if ply:GetPos():DistToSqr(npc_pos) <= 1440000 and bgNPC:IsTargetRay(npc, ply) then
+			if ply:GetPos():DistToSqr(npc_pos) <= minDist and bgNPC:IsTargetRay(npc, ply) then
 				actor:AddEnemy(ply)
 				enemies_exists = true
 			end
@@ -48,5 +57,6 @@ end)
 hook.Add('BGN_OnValidSpawnActor', 'BGN_SpectatorSpawnOnlyDarkRoomInGmConstruct',
 function(npc_type, _, _, spawnPos)
 	if npc_type ~= 'meat_man' then return end
+	if not IsGmConstruct() and math.random(0, 100) <= 30 then return true end
 	if not InDarkRoom(spawnPos) then return true end
 end)
