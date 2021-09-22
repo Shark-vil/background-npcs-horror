@@ -7,7 +7,9 @@ timer.Create('BGN_SharkVil_Horror_AutoRemove_IfPlayerNear', 1, 0, function()
 	local minDist = 250000
 
 	for _, actor in ipairs(actors) do
-		if actor and actor:IsAlive() and not table.HasValueBySeq(ignore_actors, actor:GetType()) then
+		if actor and actor:IsAlive() and actor:HasTeam('horror')
+			and not table.HasValueBySeq(ignore_actors, actor:GetType())
+		then
 			local npc = actor:GetNPC()
 			local is_remove = false
 
