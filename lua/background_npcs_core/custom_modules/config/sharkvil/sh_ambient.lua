@@ -1,6 +1,4 @@
-bgNPC.cfg.ambient = {
-	{ count = 1, sound = 'background_npcs/ambient/bgn_ambient_3.wav' },
-}
+bgNPC.cfg.ambient = {}
 
 local random_sounds_on_map = {
 	'ambient/levels/streetwar/city_scream3.wav',
