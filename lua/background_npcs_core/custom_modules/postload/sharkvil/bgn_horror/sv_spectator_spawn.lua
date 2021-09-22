@@ -8,7 +8,7 @@ hook.Add('BGN_PostSpawnActor', 'BGN_SharkVil_Horror_SetSpectator', function(npc,
 		npc:slibFadeRemove(1.5)
 	end)
 
-	if math.random(0, 100) <= 50 then
+	if string.find( game.GetMap(), 'gm_construct' ) and math.random(0, 100) <= 50 then
 		local balconyPos = Vector( 733, -1055, 320 )
 		local trueSpawn = true
 
