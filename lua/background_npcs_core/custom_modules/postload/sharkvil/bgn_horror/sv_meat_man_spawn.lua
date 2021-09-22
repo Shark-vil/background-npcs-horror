@@ -56,6 +56,7 @@ end)
 
 hook.Add('BGN_OnValidSpawnActor', 'BGN_SpectatorSpawnOnlyDarkRoomInGmConstruct',
 function(npc_type, _, _, spawnPos)
-	if npc_type ~= 'meat_man' or not IsGmConstruct() then return end
+	if npc_type ~= 'meat_man' then return end
+	if not IsGmConstruct() and math.random(0, 100) <= 30 then return true end
 	if not InDarkRoom(spawnPos) then return true end
 end)
