@@ -1,5 +1,5 @@
-local startPosDarkRoom = Vector( -3184, -2616, 168 )
-local endPosDarkRoom = Vector( -5314, -995, -169 )
+local startPosDarkRoom = Vector( -3236, -2567, 205 )
+local endPosDarkRoom = Vector( -5250, -1052, -168 )
 
 local function InDarkRoom(vec)
 	return vec:WithinAABox( startPosDarkRoom, endPosDarkRoom )
@@ -9,28 +9,35 @@ local function IsGmConstruct()
 	return tobool( string.find( game.GetMap(), 'gm_construct' ) )
 end
 
-hook.Add('BGN_PostSpawnActor', 'BGN_SharkVil_Horror_MeatManSpawn', function(npc, npc_type)
+hook.Add('BGN_InitActor', 'BGN_SharkVil_Horror_MeatManSpawn', function(actor)
+	if not actor or not actor:IsAlive() then return end
+
+	local npc = actor:GetNPC()
+	local npc_type = actor:GetType()
+
 	if npc_type ~= 'meat_man' then return end
+
+	npc:SetModel('models/Zombie/Classic.mdl')
 	npc:SetRenderMode(RENDERMODE_TRANSCOLOR)
 	npc:SetCollisionGroup(COLLISION_GROUP_WORLD)
 	npc:SetMaterial('models/props_combine/prtl_sky_sheet')
-	npc:SetColor( Color(255, 0, 0, 200) )
+	npc:SetColor( Color(255, 0, 0) )
 
 	if not string.find( game.GetMap(), 'gm_construct' ) then
 		npc:slibCreateTimer('actor_fade', math.random(10, 20), 1, function()
-			npc:slibFadeRemove(1.5)
+			if not actor or not actor:IsAlive() then return end
+			npc:slibFadeRemove(2.5)
 		end)
 	end
 
 	npc:slibCreateTimer('spectator_set_state_if_players_near', 0.5, 0, function()
-		local actor = bgNPC:GetActor(npc)
-		if not actor then return end
+		if not actor or not actor:IsAlive() then return end
 
 		local npc_pos = npc:GetPos()
 		local is_gm_construct = IsGmConstruct()
 
 		if is_gm_construct and not InDarkRoom(npc_pos) then
-			npc:slibFadeRemove()
+			npc:slibFadeRemove(2.5)
 			return
 		end
 
@@ -52,6 +59,11 @@ hook.Add('BGN_PostSpawnActor', 'BGN_SharkVil_Horror_MeatManSpawn', function(npc,
 			actor:SetState('berserk')
 		end
 	end)
+end)
+
+hook.Add('BGN_PreHorrorRemove', 'BGN_HorrorDontRemoveMatMan', function(actor)
+	if not actor or not actor:IsAlive() or actor:GetType() ~= 'meat_man' then return end
+	return true
 end)
 
 hook.Add('BGN_OnValidSpawnActor', 'BGN_SpectatorSpawnOnlyDarkRoomInGmConstruct',
