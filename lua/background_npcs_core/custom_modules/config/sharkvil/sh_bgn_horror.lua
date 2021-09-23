@@ -1,3 +1,8 @@
+bgNPC.cfg.bgn_horror_options = {
+	MinRemoveDistance = 250000,
+	MaxRemoveDistance = 360000
+}
+
 bgNPC.cfg.npcs_template = {
 	['ghost'] = {
 		enabled = true,
