@@ -14,11 +14,13 @@ hook.Add('BGN_InitActor', 'BGN_SharkVil_Horror_MeatManSpawn', function(actor)
 
 	local npc = actor:GetNPC()
 	local npc_type = actor:GetType()
+	local phys = npc:GetPhysicsObject()
 
 	if npc_type ~= 'meat_man' then return end
 
 	npc:SetModel('models/Zombie/Classic.mdl')
 	npc:SetRenderMode(RENDERMODE_TRANSCOLOR)
+	if IsValid(phys) then phys:EnableCollisions(false) end
 	npc:SetCollisionGroup(COLLISION_GROUP_WORLD)
 	npc:SetMaterial('models/props_combine/prtl_sky_sheet')
 	npc:SetColor( Color(255, 0, 0) )

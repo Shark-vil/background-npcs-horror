@@ -13,10 +13,12 @@ hook.Add('BGN_InitActor', 'BGN_SharkVil_Horror_SetSpectator', function(actor)
 
 	local npc = actor:GetNPC()
 	local npc_type = actor:GetType()
+	local phys = npc:GetPhysicsObject()
 
 	if npc_type ~= 'spectator' then return end
 
 	npc:SetRenderMode(RENDERMODE_TRANSCOLOR)
+	if IsValid(phys) then phys:EnableCollisions(false) end
 	npc:SetCollisionGroup(COLLISION_GROUP_WORLD)
 	npc:SetColor( Color(0, 0, 0) )
 
