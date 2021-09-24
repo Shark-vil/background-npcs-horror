@@ -10,6 +10,7 @@ bgNPC.cfg.npcs_template = {
 		name = 'Souls of dead players',
 		fullness = 100,
 		team = { 'souls', 'horror' },
+		bsmod_damage_animation_disable = true,
 		at_random = {
 			['walk'] = 80,
 			['idle'] = 10,
@@ -19,7 +20,7 @@ bgNPC.cfg.npcs_template = {
 			['disappearance'] = 100,
 		},
 		at_protect = {
-			['disappearance'] = 100,
+			['ignore'] = 100,
 		}
 	},
 	['spectator'] = {
@@ -28,6 +29,7 @@ bgNPC.cfg.npcs_template = {
 		name = 'Spectator',
 		limit = 1,
 		team = { 'secret_department', 'horror' },
+		bsmod_damage_animation_disable = true,
 		at_random = {
 			['walk'] = 100,
 		},
@@ -44,6 +46,7 @@ bgNPC.cfg.npcs_template = {
 		name = 'Meat man',
 		limit = 1,
 		team = { 'anomaly', 'horror' },
+		bsmod_damage_animation_disable = true,
 		at_random = {
 			['walk'] = 100,
 		},
