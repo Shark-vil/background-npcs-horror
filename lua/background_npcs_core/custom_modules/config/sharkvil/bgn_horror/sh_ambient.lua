@@ -7,6 +7,7 @@ local random_sounds_on_map = {
 timer.Create('BGN_AmbientRandomsSoundsOnMap', 30, 0, function()
 	if math.random(0, 100) <= 5 then return end
 	if not GetConVar('bgn_enable'):GetBool() then return end
+	if not GetConVar('bgn_horror_mode_enable'):GetBool() then return end
 
 	local ply = table.RandomBySeq( player.GetAll() )
 	local offset_x = math.random(-10000, 10000)
