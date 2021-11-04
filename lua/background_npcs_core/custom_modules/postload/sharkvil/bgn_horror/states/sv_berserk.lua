@@ -19,7 +19,10 @@ bgNPC:SetStateAction('berserk', 'danger', {
 				end
 
 				local nearEnemy = actor:GetNearEnemy()
-				if not IsValid(nearEnemy) then return end
+				if not IsValid(nearEnemy) or not nearEnemy:IsPlayer() then
+					npc:slibRemoveTimer('meatman_punch_enemy')
+					return
+				end
 
 				local angle_punch_pitch = math.Rand(-5, 5)
 				local angle_punch_yaw = math.sqrt(5 * 5 - angle_punch_pitch * angle_punch_pitch)
