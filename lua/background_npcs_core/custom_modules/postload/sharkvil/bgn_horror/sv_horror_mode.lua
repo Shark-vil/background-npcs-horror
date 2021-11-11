@@ -1,3 +1,5 @@
+local is_first_load = true
+
 local function RemoveByType(npc_type)
 	local actors =  bgNPC:GetAllByType(npc_type)
 	local count = #actors
@@ -22,7 +24,7 @@ local function ToggleMod( enabled )
 				RunConsoleCommand('bgn_npc_type_' .. npc_type, '0')
 				RemoveByType(npc_type)
 			end
-		else
+		elseif not is_first_load then
 			if data.team and table.HasValueBySeq(data.team, 'horror') then
 				RunConsoleCommand('bgn_npc_type_' .. npc_type, '0')
 				RemoveByType(npc_type)
@@ -35,6 +37,7 @@ local function ToggleMod( enabled )
 end
 
 ToggleMod( GetConVar('bgn_horror_mode_enable'):GetBool() )
+is_first_load = false
 
 cvars.AddChangeCallback('bgn_horror_mode_enable', function(_, _, new_cvar_value)
 	ToggleMod( tobool( new_cvar_value ) )
