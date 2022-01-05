@@ -15,7 +15,15 @@ local function RemoveByType(npc_type)
 	end
 end
 
+local cache_config_ambient = table.Copy(bgNPC.cfg.ambient)
+
 local function ToggleMod( enabled )
+	if enabled then
+		bgNPC.cfg.ambient = {}
+	else
+		bgNPC.cfg.ambient = cache_config_ambient
+	end
+
 	for npc_type, data in pairs(bgNPC.cfg.npcs_template) do
 		if enabled then
 			if data.team and table.HasValueBySeq(data.team, 'horror') then

@@ -1,5 +1,3 @@
-bgNPC.cfg.ambient = {}
-
 local random_sounds_on_map = {
 	'ambient/levels/streetwar/city_scream3.wav',
 }
